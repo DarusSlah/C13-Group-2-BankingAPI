@@ -1,6 +1,6 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.repository;
 
-import org.springframework.data.jpa.repository.Query;
+import C13Group2.BankingAPI.model.Bill;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,7 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.handlers;
 
+import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
+import C13Group2.BankingAPI.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
