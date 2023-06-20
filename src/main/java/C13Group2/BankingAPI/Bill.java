@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
+   private Long id;
     @Column(name = "status")
 @Enumerated(EnumType.STRING)
  private BillStatus status;
@@ -27,10 +27,10 @@ public class Bill {
  private LocalDate upcoming_payment;
     @Column(name = "upcoming_amount")
  private Double payment_amount;
- @ManyToOne
- @JoinColumn(name = "account_id",nullable = false)
- @OnDelete(action = OnDeleteAction.CASCADE)
- private Account account;
+// @ManyToOne
+// @JoinColumn(name = "account_id",nullable = false)
+// @OnDelete(action = OnDeleteAction.CASCADE)
+//// private Account account;
 
     public Long getId() {
         return id;
@@ -98,10 +98,10 @@ public class Bill {
     public void setUpcoming_payment(LocalDate upcoming_payment) {
         this.upcoming_payment = upcoming_payment;
     }
-    public Account getAccount() {
-        return account;
-    }public void setAccount(Account account) {
-        this.account = account;
-    }
+//    public Account getAccount() {
+//        return account;
+//    }public void setAccount(Account account) {
+//        this.account = account;
+//    }
 
 }
