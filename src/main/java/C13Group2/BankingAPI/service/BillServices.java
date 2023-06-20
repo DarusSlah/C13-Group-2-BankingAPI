@@ -1,8 +1,9 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.service;
 
+import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
+import C13Group2.BankingAPI.model.Bill;
+import C13Group2.BankingAPI.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public class BillServices {
 //        }
 //    }
 
-    private void verifyIfBillExists(Long billId) throws ResourceNotFoundException{
+    private void verifyIfBillExists(Long billId) throws ResourceNotFoundException {
         if(!(billRepository.existsById(billId))){
             throw new ResourceNotFoundException( "“error fetching bill with id:" + billId);
         }

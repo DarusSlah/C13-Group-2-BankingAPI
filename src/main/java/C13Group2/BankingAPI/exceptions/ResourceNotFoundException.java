@@ -1,4 +1,4 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException() {

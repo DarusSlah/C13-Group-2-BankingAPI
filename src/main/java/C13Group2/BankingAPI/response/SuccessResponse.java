@@ -1,4 +1,4 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

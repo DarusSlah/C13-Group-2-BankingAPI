@@ -1,9 +1,8 @@
-package C13Group2.BankingAPI;
+package C13Group2.BankingAPI.model;
 
 
+import C13Group2.BankingAPI.enums.BillStatus;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
