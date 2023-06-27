@@ -24,7 +24,7 @@ public class Bill {
  private Integer recurring_date;
     @Column(name = "upcoming_payment")
  private LocalDate upcoming_payment;
-    @Column(name = "upcoming_amount")
+    @Column(name = "payment_amount")
  private Double payment_amount;
 // @ManyToOne
 // @JoinColumn(name = "account_id",nullable = false)

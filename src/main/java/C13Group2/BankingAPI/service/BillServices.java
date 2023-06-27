@@ -15,7 +15,7 @@ public class BillServices {
     @Autowired
     private BillRepository billRepository;
 
-//    private CustomerRepository customerRepository;
+//   private CustomerRepository customerRepository;
 
 //    private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException{
 //        if(!(accountRepository.existsById(accountId))){
@@ -37,27 +37,10 @@ public class BillServices {
 
 
 //    public Bill createBill(Long accountId,Bill bills){
-//        verifyIfAccountExists(accountId);
-//      accountRepository.findById(accountId).orElseThrow(()-> new ResourceNotFoundException("Error creating bill:" +" Account with ID of:"+ accountId + " not found"));
-//        Bill newBill = new Bill();
-//        newBill.setStatus(bills.getStatus());
-//        newBill.setPayee(bills.getPayee());
-//        newBill.setNickname(bills.getNickname());
-//        newBill.setRecurring_date(bills.getRecurring_date());
-//        LocalDate date = LocalDate.now();
-//        LocalDate nextPaymentDate = LocalDate.of(date.getYear(),date.getMonth(),bills.getRecurring_date());
-//        if(nextPaymentDate.isBefore(date)){
-//            nextPaymentDate = nextPaymentDate.plusMonths(1);
-//        }
-//        newBill.setUpcoming_payment(nextPaymentDate);
-//        newBill.setCreation_date(date);
-//        newBill.setPayment_amount(bills.getPayment_amount());
-//        newBill.setAccount(accountRepository.findById(accountId).orElse(null));
-//        return billRepository.save(bills);
-//
-//
-//
-//    }
+//Account account = accountRepository.findById(id).orElse(null);
+//        bill.setAccount(account);
+//     return billRepository.save(bill);
+//}
 
 
     public Bill getBillById(Long id){
