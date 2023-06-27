@@ -16,33 +16,27 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
-    //add address
     public void addAddress(Address address){
         logger.info("Creating new address: ", address);
         addressRepository.save(address);
     }
 
-    //update address
     public void updateAddressById(Long id, Address address){
         logger.info("Updating address with ID: , New address: ", id, address);
         address.setId(id);
         addressRepository.save(address);
     }
-    //delete address
+
     public void deleteAddressById(Long id){
         logger.info("Deleting address with ID: ", id);
         addressRepository.deleteById(id);
     }
 
-    //learn how to explain this code below
-    //get all addresses
     public Iterable<Address> getAllAddresses() {
         logger.info("Retrieving all addresses");
         return addressRepository.findAll();
     }
 
-    //learn how to explain this code below
-    //get address by id
     public Optional<Address> getAddressById(Long id){
         logger.info("Retrieving address by id of: ", id);
         addressRepository.findById(id);

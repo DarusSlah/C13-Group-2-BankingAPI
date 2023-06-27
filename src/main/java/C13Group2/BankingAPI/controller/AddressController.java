@@ -42,7 +42,6 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //learn how to explain this code below
     @GetMapping("/addresses")
     public ResponseEntity<Iterable<Address>> getAllAddresses() {
         logger.info("Retrieving all addresses");
@@ -50,7 +49,6 @@ public class AddressController {
         return new ResponseEntity<>(addresses, HttpStatus.OK);
     }
 
-    //learn how to explain this code below
     @GetMapping("/addresses/{id}")
     public ResponseEntity<Optional<Address>> getAddressById(@PathVariable Long id) {
         logger.debug("Retrieving address with ID: ", id);
