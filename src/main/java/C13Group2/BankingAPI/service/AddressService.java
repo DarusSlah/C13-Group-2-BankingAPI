@@ -1,2 +1,3 @@
-package C13Group2.BankingAPI.service;public class AddressService {
+package C13Group2.BankingAPI.service;
+public class AddressService {
 }

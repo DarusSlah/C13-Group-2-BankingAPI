@@ -1,8 +1,10 @@
 package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
+import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.model.Bill;
-import C13Group2.BankingAPI.repository.BillRepository;
+import C13Group2.BankingAPI.repositories.AccountRepository;
+import C13Group2.BankingAPI.repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +12,18 @@ import java.time.LocalDate;
 
 @Service
 public class BillServices {
-
-//    private AccountRepository accountRepository;
-    @Autowired
+     @Autowired
+    private AccountRepository accountRepository;
+     @Autowired
     private BillRepository billRepository;
 
 //   private CustomerRepository customerRepository;
 
-//    private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException{
-//        if(!(accountRepository.existsById(accountId))){
-//            throw new ResourceNotFoundException("“error fetching bills");
-//        }
-//    }
+    private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException{
+        if(!(accountRepository.existsById(accountId))){
+            throw new ResourceNotFoundException("“error fetching bills " + accountId);
+        }
+    }
 
     private void verifyIfBillExists(Long billId) throws ResourceNotFoundException {
         if(!(billRepository.existsById(billId))){
@@ -36,11 +38,25 @@ public class BillServices {
 //    }
 
 
-//    public Bill createBill(Long accountId,Bill bills){
-//Account account = accountRepository.findById(id).orElse(null);
-//        bill.setAccount(account);
-//     return billRepository.save(bill);
-//}
+    public Bill createBill(Long accountId,Bill bill){
+        verifyIfAccountExists(accountId);
+           this.accountRepository.findById(accountId).orElseThrow(()-> new ResourceNotFoundException("Error creating bill:" +" Account with ID of:" + accountId + " not found"));
+        Bill newBill = new Bill();
+        newBill.setStatus(bill.getStatus());
+        newBill.setPayee(bill.getPayee());
+        newBill.setNickname(bill.getNickname());
+        newBill.setRecurring_date(bill.getRecurring_date());
+        LocalDate date = LocalDate.now();
+        LocalDate nextPaymentDate = LocalDate.of(date.getYear(),date.getMonth(),bill.getRecurring_date());
+        if(nextPaymentDate.isBefore(date)){
+            nextPaymentDate = nextPaymentDate.plusMonths(1);
+        }
+        newBill.setUpcoming_payment(nextPaymentDate);
+        newBill.setCreation_date(date);
+        newBill.setPayment_amount(bill.getPayment_amount());
+        newBill.setAccount(accountRepository.findById(accountId).orElse(null));
+        return billRepository.save(bill);
+}
 
 
     public Bill getBillById(Long id){
@@ -49,7 +65,6 @@ public class BillServices {
     }
 
     public Bill updateBill(Long billId,Bill bill){
-        verifyIfBillExists(billId);
         Bill updatebill = billRepository.findById(billId).orElseThrow(()-> new ResourceNotFoundException("Bill ID does not exist"));
         if(updatebill != null) {
             updatebill.setPayment_amount(bill.getPayment_amount());
@@ -81,14 +96,14 @@ public class BillServices {
 
 
 
-//    public Iterable<Bill> getBillsByAccountId(Long accountId){
-//        verifyIfAccountExists(accountId);
-//        return billRepository.getAllBillsByAccountId(accountId);
-//
-//
-//    }
+    public Iterable<Bill> getBillsByAccountId(Long accountId){
+        verifyIfAccountExists(accountId);
+        return billRepository.getAllBillsByAccountId(accountId);
 
-//public Iterable<Bill>getBillsByCustomerId(Long customerId){
+
+    }
+
+// public Iterable<Bill>getBillsByCustomerId(Long customerId){
 //        verifyIfCustomerExists(customerId);
 //        return billRepository.getAllBillsByCustomerId(customerId);
 //}

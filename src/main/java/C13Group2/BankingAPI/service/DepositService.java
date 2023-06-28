@@ -2,7 +2,9 @@ package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.model.Deposit;
 import C13Group2.BankingAPI.repositories.DepositRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DepositService {
     DepositRepository depositRepository;
 
