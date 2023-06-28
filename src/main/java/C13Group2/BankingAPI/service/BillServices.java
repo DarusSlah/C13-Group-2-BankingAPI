@@ -5,6 +5,7 @@ import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.model.Bill;
 import C13Group2.BankingAPI.repositories.AccountRepository;
 import C13Group2.BankingAPI.repositories.BillRepository;
+import C13Group2.BankingAPI.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class BillServices {
     private AccountRepository accountRepository;
      @Autowired
     private BillRepository billRepository;
-
-//   private CustomerRepository customerRepository;
+@Autowired
+   private CustomerRepository customerRepository;
 
     private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException{
         if(!(accountRepository.existsById(accountId))){
@@ -31,11 +32,11 @@ public class BillServices {
         }
     }
 
-//    private void verifyIfCustomerExists(Long customerId) throws ResourceNotFoundException{
-//        if(!(billRepository.existsById(customerId))){
-//            throw new ResourceNotFoundException( "“error fetching bills");
-//        }
-//    }
+    private void verifyIfCustomerExists(Long customerId) throws ResourceNotFoundException{
+        if(!(billRepository.existsById(customerId))){
+            throw new ResourceNotFoundException( "“error fetching bills");
+        }
+    }
 
 
     public Bill createBill(Long accountId,Bill bill){
@@ -103,9 +104,9 @@ public class BillServices {
 
     }
 
-// public Iterable<Bill>getBillsByCustomerId(Long customerId){
-//        verifyIfCustomerExists(customerId);
-//        return billRepository.getAllBillsByCustomerId(customerId);
-//}
+ public Iterable<Bill>getBillsByCustomerId(Long customerId){
+        verifyIfCustomerExists(customerId);
+        return billRepository.getAllBillsByCustomerId(customerId);
+}
 
 }

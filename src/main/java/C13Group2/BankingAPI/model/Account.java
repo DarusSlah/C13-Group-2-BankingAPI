@@ -11,11 +11,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   // private AccountType accountType; // TODO: Add an AccountType Class
+//    private AccountType accountType; //TODO: Add an AccountType Class
     private String nickname;
     private Integer rewards;
     private Double balance;
-//     private Customer customer; TODO: Customer Class needs to be added to not bark
+    private Customer customer; // TODO: Customer Class needs to be added to not bark
 
     public Long getId() {
         return id;
@@ -49,11 +49,11 @@ public class Account {
         this.balance = balance;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }    // TODO: make sure Customer is added to work
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) { // TODO: make sure Customer is added to work
+        this.customer = customer;
+    }
 }

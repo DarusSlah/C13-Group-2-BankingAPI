@@ -27,15 +27,15 @@ public class BillController {
 
     }
 
-//    @GetMapping("/customers/{customerId}/bills")
-//    public ResponseEntity<?> getAllBillsByCustomerId(@PathVariable Long customerId) {
-//        int code = HttpStatus.OK.value();
-//        String messages = "Successfully retrieved Bills associated with Customer Id";
-//        Iterable<Bill> data = billService.getBillsByCustomerId(customerId);
-//        SuccessResponse<?> successResponse = new SuccessResponse<>(code,messages,data);
-//
-//        return (new ResponseEntity<>(successResponse, HttpStatus.OK));
-//    }
+    @GetMapping("/customers/{customerId}/bills")
+    public ResponseEntity<?> getAllBillsByCustomerId(@PathVariable Long customerId) {
+        int code = HttpStatus.OK.value();
+        String messages = "Successfully retrieved Bills associated with Customer Id";
+        Iterable<Bill> data = billService.getBillsByCustomerId(customerId);
+        SuccessResponse<?> successResponse = new SuccessResponse<>(code,messages,data);
+
+        return (new ResponseEntity<>(successResponse, HttpStatus.OK));
+    }
 
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillWithId(@PathVariable Long billId) {
