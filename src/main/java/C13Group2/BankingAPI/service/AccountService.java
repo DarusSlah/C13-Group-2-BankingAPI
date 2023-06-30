@@ -2,13 +2,11 @@ package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.enums.AccountType;
 import C13Group2.BankingAPI.model.Account;
-<<<<<<< Updated upstream
+
 import C13Group2.BankingAPI.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-=======
 
->>>>>>> Stashed changes
 
 @Service
 public class AccountService {

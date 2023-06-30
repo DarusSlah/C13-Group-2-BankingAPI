@@ -3,6 +3,7 @@ package C13Group2.BankingAPI.service;
 import C13Group2.BankingAPI.model.Customer;
 
 
+import C13Group2.BankingAPI.repositories.AddressRepository;
 import C13Group2.BankingAPI.repositories.CustomerRepository;
 
 
@@ -19,13 +20,14 @@ public class CustomerService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
-
+    @Autowired
+    private AddressRepository addressRepository;
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getAllCustomers() {
+    public/*List*/ Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 

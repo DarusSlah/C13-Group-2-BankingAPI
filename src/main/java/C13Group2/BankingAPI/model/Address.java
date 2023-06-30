@@ -1,10 +1,8 @@
 package C13Group2.BankingAPI.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Address {
@@ -12,13 +10,24 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column( name = "streetNumber")
+    @NotNull
     private String streetNumber;
+    @Column(name = "streetName")
+    @NotNull
     private String streetName;
+    @Column(name = "city")
+    @NotNull
     private String city;
+    @Column(name = "state")
+    @NotNull
     private String state;
+    @Column(name = "zip")
+    @NotNull
     private String zip;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customerId")
+    private Customer customer;
     public Long getId() {
 
         return id;
@@ -66,5 +75,13 @@ public class Address {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

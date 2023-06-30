@@ -1,21 +1,21 @@
 package C13Group2.BankingAPI.model;
 
-import C13Group2.BankingAPI.enums.DepositStatus;
+
 import C13Group2.BankingAPI.enums.TransactionType;
 import C13Group2.BankingAPI.enums.WithdrawalStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
+@Entity
 public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @JsonProperty("type")

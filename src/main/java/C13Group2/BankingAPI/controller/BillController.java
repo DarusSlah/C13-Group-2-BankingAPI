@@ -48,7 +48,7 @@ public class BillController {
         return (new ResponseEntity<>(successResponse, HttpStatus.OK));
     }
 
-<<<<<<< Updated upstream
+
     @PostMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?>createBill(@PathVariable Long accountId, @Valid @RequestBody Bill bill) {
         int code = HttpStatus.CREATED.value();
@@ -58,9 +58,7 @@ public class BillController {
 
         return (new ResponseEntity<>(successResponse, HttpStatus.CREATED));
     }
-=======
 
->>>>>>> Stashed changes
 
     @PutMapping("/bills/{billId}")
     public ResponseEntity<?> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {

@@ -2,6 +2,7 @@ package C13Group2.BankingAPI.model;
 
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -10,19 +11,22 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressId",referencedColumnName = "id")
+    private Set<Address> addresses;
 
-    public Customer(Long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+//    public Customer(Long id, String firstName, String lastName) {
+//        this.id = id;
+
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
 
     public Long getId() {
         return id;
@@ -49,4 +53,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
 }
