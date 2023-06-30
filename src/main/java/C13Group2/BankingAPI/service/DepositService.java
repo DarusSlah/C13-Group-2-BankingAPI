@@ -4,12 +4,9 @@ import C13Group2.BankingAPI.enums.DepositStatus;
 import C13Group2.BankingAPI.enums.TransactionType;
 import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.model.Deposit;
-<<<<<<< Updated upstream
 import C13Group2.BankingAPI.repositories.DepositRepository;
-=======
 import C13Group2.BankingAPI.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +45,4 @@ public class DepositService {
     public void deleteDeposit(Long depositId){
         depositRepository.deleteById(depositId);
     }
-
-
 }

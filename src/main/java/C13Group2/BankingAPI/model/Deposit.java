@@ -1,23 +1,15 @@
 package C13Group2.BankingAPI.model;
 
-<<<<<<< Updated upstream
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-=======
 import C13Group2.BankingAPI.enums.DepositStatus;
 import C13Group2.BankingAPI.enums.TransactionType;
-import C13Group2.BankingAPI.enums.WithdrawalStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.Id;
->>>>>>> Stashed changes
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Deposit {
@@ -117,3 +109,5 @@ public class Deposit {
         this.account = account;
     }
 }
+
+
