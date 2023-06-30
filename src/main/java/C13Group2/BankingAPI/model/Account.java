@@ -1,13 +1,26 @@
 package C13Group2.BankingAPI.model;
 
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+
+@Entity
 public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   // private AccountType accountType; // TODO: Add an AccountType Class
+//    private AccountType accountType; //TODO: Add an AccountType Class
     private String nickname;
     private Integer rewards;
     private Double balance;
-//     private Customer customer; TODO: Customer Class needs to be added to not bark
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+   @JoinColumn(name = "customerId",nullable = false)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+  private Customer customer; // TODO: Customer Class needs to be added to not bark
 
     public Long getId() {
         return id;
@@ -41,11 +54,11 @@ public class Account {
         this.balance = balance;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }    // TODO: make sure Customer is added to work
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) { // TODO: make sure Customer is added to work
+        this.customer = customer;
+    }
 }

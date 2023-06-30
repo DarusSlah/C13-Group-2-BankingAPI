@@ -2,8 +2,10 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.BillStatus;
-import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -24,12 +26,12 @@ public class Bill {
  private Integer recurring_date;
     @Column(name = "upcoming_payment")
  private LocalDate upcoming_payment;
-    @Column(name = "upcoming_amount")
+    @Column(name = "payment_amount")
  private Double payment_amount;
-// @ManyToOne
-// @JoinColumn(name = "account_id",nullable = false)
-// @OnDelete(action = OnDeleteAction.CASCADE)
-//// private Account account;
+ @ManyToOne(optional = false)
+ @JoinColumn(name = "account_id",nullable = false)
+ @OnDelete(action = OnDeleteAction.CASCADE)
+ private Account account;
 
     public Long getId() {
         return id;
@@ -97,10 +99,10 @@ public class Bill {
     public void setUpcoming_payment(LocalDate upcoming_payment) {
         this.upcoming_payment = upcoming_payment;
     }
-//    public Account getAccount() {
-//        return account;
-//    }public void setAccount(Account account) {
-//        this.account = account;
-//    }
+    public Account getAccount() {
+        return account;
+    }public void setAccount(Account account) {
+        this.account = account;
+    }
 
 }

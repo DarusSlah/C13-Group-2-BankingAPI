@@ -1,7 +1,11 @@
 package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.model.Customer;
-import C13Group2.BankingAPI.repository.CustomerRepository;
+
+
+import C13Group2.BankingAPI.repositories.CustomerRepository;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
