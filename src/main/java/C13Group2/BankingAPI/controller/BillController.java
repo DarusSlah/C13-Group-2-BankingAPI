@@ -13,19 +13,16 @@ import javax.validation.Valid;
 @RestController
 public class BillController {
 
-
     @Autowired
     private BillServices billService;
 
-
     @GetMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?> getAllBillsByAccountId(@PathVariable Long accountId) {
-     int code = HttpStatus.OK.value();
-     String messages = " Successfully retrieved Bills associated with Account Id";
-     Iterable<Bill> data = billService.getBillsByAccountId(accountId);
-     SuccessResponse<?> successResponse = new SuccessResponse<>(code,messages,data);
-     return new ResponseEntity<>(successResponse,HttpStatus.OK);
-
+        int code = HttpStatus.OK.value();
+        String messages = " Successfully retrieved Bills associated with Account Id";
+        Iterable<Bill> data = billService.getBillsByAccountId(accountId);
+        SuccessResponse<?> successResponse = new SuccessResponse<>(code,messages,data);
+        return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
 
     @GetMapping("/customers/{customerId}/bills")
@@ -48,7 +45,6 @@ public class BillController {
         return (new ResponseEntity<>(successResponse, HttpStatus.OK));
     }
 
-<<<<<<< Updated upstream
     @PostMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?>createBill(@PathVariable Long accountId, @Valid @RequestBody Bill bill) {
         int code = HttpStatus.CREATED.value();
@@ -58,13 +54,9 @@ public class BillController {
 
         return (new ResponseEntity<>(successResponse, HttpStatus.CREATED));
     }
-=======
-
->>>>>>> Stashed changes
 
     @PutMapping("/bills/{billId}")
     public ResponseEntity<?> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {
-
         int code = HttpStatus.ACCEPTED.value();
         String messages = "Accepted bill modification";
         billService.updateBill(billId,bill);
@@ -82,5 +74,4 @@ public class BillController {
 
         return (new ResponseEntity<>(successResponse, HttpStatus.NO_CONTENT));
     }
-
 }

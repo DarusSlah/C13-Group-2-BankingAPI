@@ -1,6 +1,7 @@
 package C13Group2.BankingAPI.controller;
 
 import C13Group2.BankingAPI.model.Withdrawal;
+import C13Group2.BankingAPI.response.SuccessResponse;
 import C13Group2.BankingAPI.service.WithdrawalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,30 +13,47 @@ public class WithdrawalController {
     private WithdrawalService withdrawalService;
 
     @GetMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<Iterable<Withdrawal>> getAllWithdrawals(){
-        return new ResponseEntity<>(withdrawalService.getAllWithdrawals(), HttpStatus.OK);
+    public ResponseEntity<?> getAllWithdrawals(){
+        int code = HttpStatus.OK.value();
+        String message = "Successfully fetched all withdrawals";
+        Iterable<Withdrawal> data = withdrawalService.getAllWithdrawals();
+        SuccessResponse<?> successResponse = new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<Withdrawal> getWithdrawalById(@PathVariable Long id){
-        return new ResponseEntity<>(withdrawalService.getWithdrawalById(id), HttpStatus.OK);
+    public ResponseEntity<?> getWithdrawalById(@PathVariable Long id){
+        int code = HttpStatus.OK.value();
+        String message = "Successfully fetched withdrawal matching the provided transaction ID: " + id;
+        Withdrawal data = withdrawalService.getWithdrawalById(id);
+        SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     @PostMapping("/accounts/{accountId}/withdrawals")
-    public ResponseEntity<Withdrawal> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdrawal withdrawal){
-        Withdrawal createdWithdrawal = withdrawalService.createWithdrawal(accountId, withdrawal.getMedium(), withdrawal.getAmount(), withdrawal.getDescription());
-        return new ResponseEntity<>(createdWithdrawal, HttpStatus.CREATED);
+    public ResponseEntity<?> createWithdrawal(@PathVariable Long accountId, @RequestBody Withdrawal withdrawal){
+        int code =HttpStatus.CREATED.value();
+        String message="Successfully created new withdrawal for account with ID: " + accountId;
+        Withdrawal data = withdrawalService.createWithdrawal(accountId, withdrawal.getMedium(), withdrawal.getAmount(), withdrawal.getDescription());
+        SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>( successResponse,HttpStatus.CREATED);
     }
 
     @PutMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<Withdrawal> updateWithdrawal(@PathVariable Long id, @RequestBody Withdrawal withdrawal){
-        Withdrawal updatedWithdrawal = withdrawalService.updateWithdrawal(id, withdrawal.getMedium(), withdrawal.getAmount(), withdrawal.getDescription());
-        return new ResponseEntity<>(updatedWithdrawal, HttpStatus.OK);
+    public ResponseEntity<?> updateWithdrawal(@PathVariable Long id, @RequestBody Withdrawal withdrawal){
+        int code = HttpStatus.OK.value();
+        String message = "Successfully updated withdrawal matching the provided transaction ID: " + id;
+        Withdrawal data = withdrawalService.updateWithdrawal(id, withdrawal.getMedium(), withdrawal.getAmount(), withdrawal.getDescription());
+        SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code, message,data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/withdrawals/{withdrawalId} ")
-    public ResponseEntity<Void> deleteWithdrawal(@PathVariable Long id){
+    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long id){
+        int code = HttpStatus.OK.value();
+        String message = "Successfully cancelled withdrawal matching the provided transaction ID: " + id;
+        SuccessResponse<?> successResponse = new SuccessResponse<>(code,message,null);
         withdrawalService.deleteWithdrawal(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(successResponse,HttpStatus.NO_CONTENT);
     }
 }

@@ -29,8 +29,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomerById(Long id) {
-        return customerRepository.findById(id);
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
     public Customer createCustomer(Customer customer) {
@@ -43,7 +43,7 @@ public class CustomerService {
             existingCustomer.setFirstName(updatedCustomer.getFirstName());
             existingCustomer.setLastName(updatedCustomer.getLastName());
 
-            // existingCustomer.setAddresses(updatedCustomer.getAddresses());
+            existingCustomer.setAddresses(updatedCustomer.getAddresses());
             return customerRepository.save(existingCustomer);
         }
         return null;
