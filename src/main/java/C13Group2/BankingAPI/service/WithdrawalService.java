@@ -22,7 +22,7 @@ public class WithdrawalService {
     AccountRepository accountRepository;
     private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException {
         if(!(accountRepository.existsById(accountId))){
-            throw new ResourceNotFoundException("“error fetching bills " + accountId);
+            throw new ResourceNotFoundException("error fetching bills " + accountId);
         }
     }
 
