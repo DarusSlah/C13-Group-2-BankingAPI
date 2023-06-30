@@ -1,43 +1,36 @@
 package C13Group2.BankingAPI.model;
 
 
-
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-//@Table(name = "customer")
-@Table(name = "CUSTOMER")
+@Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column
-//   private Long  id;
-    private Long customerId;
+    private Long id;
+
+
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Set<Address> addresses;
 
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
-    public Long getCustomerId() {
-        return customerId;
+    public Customer(Long id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+
     }
 
     public String getFirstName() {
@@ -56,19 +49,4 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
 }
