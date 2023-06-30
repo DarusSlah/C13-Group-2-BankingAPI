@@ -1,6 +1,7 @@
 package C13Group2.BankingAPI.controller;
 
 import C13Group2.BankingAPI.model.Customer;
+import C13Group2.BankingAPI.response.SuccessResponse;
 import C13Group2.BankingAPI.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -21,33 +21,46 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
+    @GetMapping("/customers")
+    public ResponseEntity<?> getAllCustomers() {
+        int code = HttpStatus.OK.value();
+       String message = "Successfully fetched all customers";
+       Iterable<Customer> data = customerService.getAllCustomers();
+        SuccessResponse <Iterable<Customer>> successResponse = new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Optional<Customer> customer = customerService.getCustomerById(id);
-        return customer.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<?> getCustomerById(@PathVariable Long id) {
+        int code = HttpStatus.OK.value();
+        String message = "Successfully fetched customer matching the provided customer ID: " + id;
+        Customer data = customerService.getCustomerById(id);
+       SuccessResponse<Customer> successResponse = new SuccessResponse<>(code,message,data);
+       return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.createCustomer(customer), HttpStatus.CREATED);
+    @PostMapping("/customers")
+    public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+        int code = HttpStatus.CREATED.value();
+        String message = "Successfully created new customer";
+        Customer data = customerService.createCustomer(customer);
+        SuccessResponse<Customer> successResponse = new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomer(id, customer);
-        if (updatedCustomer != null) {
-            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        int code = HttpStatus.OK.value();
+        String message = "Successfully updated customer matching the provided customer ID: " + id;
+        Customer data = customerService.updateCustomer(id, customer);
+        if (data != null) {
+            return new ResponseEntity<>(data, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        SuccessResponse<Customer>successResponse= new SuccessResponse<>(code,message,data);
+        return new ResponseEntity<>(successResponse,HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/customers/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

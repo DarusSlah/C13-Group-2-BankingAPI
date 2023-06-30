@@ -1,33 +1,33 @@
 package C13Group2.BankingAPI.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
-
     @Column(name = "first_name")
+    @JsonProperty("first_name")
+    @NotEmpty
     private String firstName;
-
     @Column(name = "last_name")
+    @JsonProperty("last_name")
+    @NotEmpty
     private String lastName;
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Address> addresses;
-
-    public Customer() {
-    }
-
-    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addresses = addresses;
-    }
+    @JsonProperty("addresses")
+    private Set<Address> addresses;
 
     public Long getId() {
         return id;
@@ -53,11 +53,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 }

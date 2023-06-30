@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.annotation.Id;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Account {
+public class Account{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
