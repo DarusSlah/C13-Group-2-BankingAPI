@@ -1,19 +1,34 @@
 package C13Group2.BankingAPI.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+
 
 @Entity
 public class Address {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//     private Long addressId;
     private String streetNumber;
     private String streetName;
     private String city;
     private String state;
     private String zip;
-    public Long getId() {
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "customerId",nullable = false)
+    private Customer customer;
+
+//    public Long getAddressId() {
+//        return addressId;
+//    }
+//
+//    public void setAddressId(Long addressId) {
+//        this.addressId = addressId;
+//    }
+        public Long getId() {
         return id;
     }
 
@@ -61,5 +76,11 @@ public class Address {
         this.zip = zip;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

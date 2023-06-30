@@ -1,9 +1,10 @@
 package C13Group2.BankingAPI.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
 public class Account {
@@ -15,7 +16,11 @@ public class Account {
     private String nickname;
     private Integer rewards;
     private Double balance;
-    private Customer customer; // TODO: Customer Class needs to be added to not bark
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+   @JoinColumn(name = "customerId",nullable = false)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+  private Customer customer; // TODO: Customer Class needs to be added to not bark
 
     public Long getId() {
         return id;

@@ -2,10 +2,10 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.BillStatus;
-import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -28,7 +28,7 @@ public class Bill {
  private LocalDate upcoming_payment;
     @Column(name = "payment_amount")
  private Double payment_amount;
- @ManyToOne
+ @ManyToOne(optional = false)
  @JoinColumn(name = "account_id",nullable = false)
  @OnDelete(action = OnDeleteAction.CASCADE)
  private Account account;

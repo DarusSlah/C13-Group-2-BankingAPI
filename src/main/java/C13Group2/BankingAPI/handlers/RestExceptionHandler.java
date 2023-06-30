@@ -4,6 +4,7 @@ import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.response.ErrorDetail;
 import C13Group2.BankingAPI.response.ErrorResponse;
 import C13Group2.BankingAPI.response.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
+    @Autowired
     private MessageSource messageSource;
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleDepositException(ResourceNotFoundException resourceNotFoundException) {
@@ -38,7 +39,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
     }
 
-
+@Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException methodArgumentNotValidException, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTimeStamp(new Date().getTime());
@@ -62,7 +63,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return (super.handleExceptionInternal(methodArgumentNotValidException, errorDetail, headers, status, request));
     }
-
+@Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException httpMessageNotReadableException, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail();
         errorDetail.setTimeStamp(new Date().getTime());
