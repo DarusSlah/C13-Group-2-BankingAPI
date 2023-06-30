@@ -27,12 +27,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private MessageSource messageSource;
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleDepositException(ResourceNotFoundException resourceNotFoundException) {
-//        ErrorDetail errorDetail = new ErrorDetail();
-//        errorDetail.setTimeStamp(new Date().getTime());
-//        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
-//        errorDetail.setTitle("Resource Not Found");
-//        errorDetail.setDetail(resourceNotFoundException.getMessage());
-//        errorDetail.setDeveloperMessage(resourceNotFoundException.getClass().getName());
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setCode(HttpStatus.NOT_FOUND.value());
         errorResponse.setMessage(resourceNotFoundException.getMessage());

@@ -1,9 +1,13 @@
 package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.enums.AccountType;
+import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.model.Account;
 
+
+
 import C13Group2.BankingAPI.repositories.AccountRepository;
+import C13Group2.BankingAPI.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +16,33 @@ import org.springframework.stereotype.Service;
 public class AccountService {
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    private void verifyIfAccountExists(Long accountId, String exceptionMessage)throws ResourceNotFoundException {
+        if(!(accountRepository.existsById(accountId))){
+            throw new ResourceNotFoundException(exceptionMessage);
+        }
+    }
+    protected void verifyCustomer (Long customerId, String exceptionMessage) throws ResourceNotFoundException {
+        if(!(this.customerRepository.existsById(customerId))) {
+            throw (new ResourceNotFoundException(exceptionMessage));
+        }
+    }
 
 
     public Iterable<Account> getAllAccounts(){
         return accountRepository.findAll();
     }
-    public Account getAccountById(Long accountId){
+    public Account getAccountById(Long accountId, String exceptionMessage){
+        verifyIfAccountExists(accountId, exceptionMessage);
         return accountRepository.findById(accountId).orElse(null);
     }
     public Iterable<Account>getAllAccountsByCustomerId(Long customerId){
         return accountRepository.findAllAccountsByCustomerId(customerId);
     }
-    public Account createAccount(String Nickname, AccountType accountType){
+    public Account createAccount(Long customerId,String exceptionMessage,String Nickname, AccountType accountType){
+        verifyCustomer(customerId, exceptionMessage);
         Account createdAccount = new Account();
         createdAccount.setAccountType(accountType);
         createdAccount.setNickname(Nickname);
@@ -31,7 +50,8 @@ public class AccountService {
         createdAccount.setRewards(0);
         return accountRepository.save(createdAccount);
     }
-    public Account updateAccount(Long accountId,Account account) {
+    public Account updateAccount(Long accountId,Account account,String exceptionMessage) {
+        verifyIfAccountExists(accountId, exceptionMessage);
         // Find the account by its ID.
         Account accountToUpdate = accountRepository.findById(accountId).get();
         // Check if the new nickname is not null and is not blank.
@@ -48,7 +68,8 @@ public class AccountService {
         return accountRepository.save(accountToUpdate);
     }
 
-    public void deleteAccount(Long accountId){
+    public void deleteAccount(Long accountId, String exceptionMessage){
+        verifyIfAccountExists(accountId, exceptionMessage);
         accountRepository.deleteById(accountId);
     }
 }

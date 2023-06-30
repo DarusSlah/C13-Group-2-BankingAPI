@@ -2,6 +2,7 @@ package C13Group2.BankingAPI.service;
 
 import C13Group2.BankingAPI.enums.TransactionType;
 import C13Group2.BankingAPI.enums.WithdrawalStatus;
+import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.model.Withdrawal;
 import C13Group2.BankingAPI.repositories.AccountRepository;
@@ -19,6 +20,11 @@ public class WithdrawalService {
 
     @Autowired
     AccountRepository accountRepository;
+    private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException {
+        if(!(accountRepository.existsById(accountId))){
+            throw new ResourceNotFoundException("error fetching bills " + accountId);
+        }
+    }
 
     public Iterable<Withdrawal>getAllWithdrawals(){
         List<Withdrawal> withdrawalList = new ArrayList<>();
@@ -36,6 +42,7 @@ public class WithdrawalService {
     }
 
     public Withdrawal createWithdrawal(Long accountId, String medium, Double amount, String description ){
+        verifyIfAccountExists(accountId);
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setType(TransactionType.WITHDRAWAL);
         withdrawal.setStatus(WithdrawalStatus.COMPLETED);

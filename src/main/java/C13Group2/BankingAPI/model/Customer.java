@@ -1,7 +1,12 @@
 package C13Group2.BankingAPI.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+
+import javax.validation.constraints.NotEmpty;
+
 import java.util.Set;
 
 @Entity
@@ -9,17 +14,17 @@ import java.util.Set;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
-
     @Column(name = "first_name")
+    @JsonProperty("first_name")
+    @NotEmpty
     private String firstName;
-
     @Column(name = "last_name")
+    @JsonProperty("last_name")
+    @NotEmpty
     private String lastName;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "addressId",referencedColumnName = "id")
-    private Set<Address> addresses;
 
 //    public Customer(Long id, String firstName, String lastName) {
 //        this.id = id;
@@ -28,13 +33,17 @@ public class Customer {
 //        this.lastName = lastName;
 //    }
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonProperty("addresses")
+    private Set<Address> addresses;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-
     }
 
     public String getFirstName() {

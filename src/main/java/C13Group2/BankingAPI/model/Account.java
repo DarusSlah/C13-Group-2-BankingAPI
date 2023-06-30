@@ -2,16 +2,21 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 @Entity
-public class Account {
+public class Account{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -20,7 +25,6 @@ public class Account {
     private AccountType accountType;
     @JsonProperty("nickname")
     @Column(name = "nickname")
-
     private String nickname;
     @JsonProperty("rewards")
     @Column(name = "rewards")
@@ -28,10 +32,12 @@ public class Account {
     @JsonProperty("balance")
     @Column(name = "balance")
     private Double balance;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-   @JoinColumn(name = "customerId",nullable = false)
-   @OnDelete(action = OnDeleteAction.CASCADE)
-  private Customer customer; // TODO: Customer Class needs to be added to not bark
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Customer customer;
 
     public Long getId() {
         return id;
@@ -65,7 +71,6 @@ public class Account {
         this.balance = balance;
     }
 
-
     public AccountType getAccountType() {
         return accountType;
     }
@@ -78,8 +83,11 @@ public class Account {
         return customer;
     }
 
-    public void setCustomer(Customer customer) { // TODO: make sure Customer is added to work
 
-            this.customer = customer;
-        }
+    @JsonProperty("customer_id")
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+}
+
+
