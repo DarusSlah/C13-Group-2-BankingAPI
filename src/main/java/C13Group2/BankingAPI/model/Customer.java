@@ -1,7 +1,7 @@
 package C13Group2.BankingAPI.model;
 
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -10,18 +10,23 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Address> addresses;
 
-    public Customer(Long id, String firstName, String lastName) {
+    public Customer() {
+    }
+
+    public Customer(Long id, String firstName, String lastName, List<Address> addresses) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.addresses = addresses;
     }
 
     public Long getId() {
@@ -30,7 +35,6 @@ public class Customer {
 
     public void setId(Long id) {
         this.id = id;
-
     }
 
     public String getFirstName() {
@@ -49,4 +53,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 }
