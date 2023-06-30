@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.service;
 
+import C13Group2.BankingAPI.model.Address;
 import C13Group2.BankingAPI.model.Customer;
 
 
@@ -34,6 +35,9 @@ public class CustomerService {
     }
 
     public Customer createCustomer(Customer customer) {
+        for(Address address: customer.getAddresses()){
+            address.setCustomer(customer);
+        }
         return customerRepository.save(customer);
     }
 

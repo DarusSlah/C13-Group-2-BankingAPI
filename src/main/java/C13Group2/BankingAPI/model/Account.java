@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 public class Account{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    @JsonProperty("id")
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -78,7 +80,7 @@ public class Account{
     public Customer getCustomer() {
         return customer;
     }
-
+    @JsonProperty("customer_id")
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }

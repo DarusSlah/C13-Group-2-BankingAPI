@@ -36,17 +36,20 @@ public class AccountController {
         return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
 
-    @PutMapping("/accounts/{id}")
-    public ResponseEntity<?> updateAccount(@PathVariable Long customerId, @RequestBody Account account) {
-        String exceptionMessage = "Unable to update account as no account was found matching the provided account ID: " + customerId;
+    @GetMapping()
+
+    @PutMapping("/accounts/{accountId}")
+    public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account account) {
+        String exceptionMessage = "Unable to update account as no account was found matching the provided account ID: " + accountId;
         int code = HttpStatus.OK.value();
         String messages = "Update Successful";
-       Account data = accountService.updateAccount(customerId, account,exceptionMessage);
+        Account data = accountService.updateAccount(accountId, account,exceptionMessage);
         SuccessResponse<Account> successResponse = new SuccessResponse<> (code,messages,data);
         return new ResponseEntity<>(successResponse,HttpStatus.CREATED);
     }
 
-    @PostMapping("/accounts")
+
+    @PostMapping("/customers/{customerId}/accounts")
     public ResponseEntity<Account> createAccount(@RequestParam Long customerId, @RequestParam String nickname, @RequestParam AccountType accountType) {
         String exceptionMessage = "Unable to create new account as no customer was found matching the provided customer ID";
         Account createdAccount = accountService.createAccount(customerId, exceptionMessage, nickname, accountType);

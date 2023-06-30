@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
         int code = HttpStatus.CREATED.value();
         String message = "Successfully created new customer";
         Customer data = customerService.createCustomer(customer);
