@@ -1,7 +1,7 @@
 package C13Group2.BankingAPI.controller;
 
 import C13Group2.BankingAPI.service.BillServices;
-import C13Group2.BankingAPI.response.SuccessResponse;
+import C13Group2.BankingAPI.response .SuccessResponse;
 import C13Group2.BankingAPI.model.Bill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,10 +45,10 @@ public class BillController {
         Bill data = billService.getBillById(billId);
         SuccessResponse<Bill> successResponse = new SuccessResponse<>(code,messages,data);
 
-
         return (new ResponseEntity<>(successResponse, HttpStatus.OK));
     }
 
+<<<<<<< Updated upstream
     @PostMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?>createBill(@PathVariable Long accountId, @Valid @RequestBody Bill bill) {
         int code = HttpStatus.CREATED.value();
@@ -58,6 +58,9 @@ public class BillController {
 
         return (new ResponseEntity<>(successResponse, HttpStatus.CREATED));
     }
+=======
+
+>>>>>>> Stashed changes
 
     @PutMapping("/bills/{billId}")
     public ResponseEntity<?> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {

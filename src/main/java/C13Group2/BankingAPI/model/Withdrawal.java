@@ -1,12 +1,5 @@
 package C13Group2.BankingAPI.model;
 
-<<<<<<< Updated upstream
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-=======
 import C13Group2.BankingAPI.enums.DepositStatus;
 import C13Group2.BankingAPI.enums.TransactionType;
 import C13Group2.BankingAPI.enums.WithdrawalStatus;
@@ -17,24 +10,23 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.Id;
->>>>>>> Stashed changes
 
-@Entity
-public class Deposit {
+public class Withdrawal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @JsonProperty("type")
     @NotNull
     private TransactionType type;
-    private String transaction_date;
+    private String transaction_Date;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @JsonProperty("status")
-    private DepositStatus status;
-    private Long payee_id;
+    private WithdrawalStatus status;
+    private Long payer_id;
     private String medium;
     private Double amount;
     private String description;
@@ -61,28 +53,28 @@ public class Deposit {
         this.type = type;
     }
 
-    public String getTransaction_date() {
-        return transaction_date;
+    public String getTransaction_Date() {
+        return transaction_Date;
     }
 
-    public void setTransaction_date(String transaction_date) {
-        this.transaction_date = transaction_date;
+    public void setTransaction_Date(String transaction_Date) {
+        this.transaction_Date = transaction_Date;
     }
 
-    public DepositStatus getStatus() {
+    public WithdrawalStatus getStatus() {
         return status;
     }
 
-    public void setStatus(DepositStatus status) {
+    public void setStatus(WithdrawalStatus status) {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
+    public Long getPayer_id() {
+        return payer_id;
     }
 
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
+    public void setPayer_id(Long payer_id) {
+        this.payer_id = payer_id;
     }
 
     public String getMedium() {

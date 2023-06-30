@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.controller;
 
+import C13Group2.BankingAPI.enums.AccountType;
 import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.service.AccountService;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,12 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/accounts/{id}")
-    public ResponseEntity<Void> createAccount(@RequestBody Account account) {
-        accountService.createAccount(account);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/accounts")
+    public ResponseEntity<Account> createAccount(@RequestParam String nickname, @RequestParam AccountType accountType) {
+        Account createdAccount = accountService.createAccount(nickname, accountType);
+        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/accounts/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);

@@ -16,9 +16,10 @@ public class DepositController {
     public ResponseEntity<Deposit> getDepositById(@PathVariable Long depositId) {
         return new ResponseEntity<>(depositService.getDepositById(depositId), HttpStatus.OK);
     }
-    @PostMapping
-    public ResponseEntity<Deposit> createDeposit(@RequestBody Deposit deposit) {
-        return new ResponseEntity<>(depositService.createDeposit(deposit), HttpStatus.OK);
+    @PostMapping("/accounts/{accountId}")
+    public ResponseEntity<Deposit> createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
+        Deposit newDeposit = depositService.createDeposit(accountId, deposit.getMedium(), deposit.getAmount(), deposit.getDescription());
+        return new ResponseEntity<>(newDeposit, HttpStatus.CREATED);
     }
     @PutMapping("/{depositId}")
     public ResponseEntity<Deposit> updateDeposit(@PathVariable Long depositId,@RequestBody Deposit deposit) {
