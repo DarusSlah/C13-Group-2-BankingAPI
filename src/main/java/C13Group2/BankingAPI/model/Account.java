@@ -34,7 +34,8 @@ public class Account{
     private Double balance;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "customerId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Customer customer;

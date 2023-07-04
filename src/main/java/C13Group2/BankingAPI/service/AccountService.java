@@ -41,13 +41,13 @@ public class AccountService {
     public Iterable<Account>getAllAccountsByCustomerId(Long customerId){
         return accountRepository.findAllAccountsByCustomerId(customerId);
     }
-    public Account createAccount(Long customerId,String exceptionMessage,String Nickname, AccountType accountType){
+    public Account createAccount(Long customerId,String exceptionMessage,Account account){
         verifyCustomer(customerId, exceptionMessage);
         Account createdAccount = new Account();
-        createdAccount.setAccountType(accountType);
-        createdAccount.setNickname(Nickname);
-        createdAccount.setBalance(0.0);
-        createdAccount.setRewards(0);
+        createdAccount.setAccountType(account.getAccountType());
+        createdAccount.setNickname(account.getNickname());
+        createdAccount.setBalance(account.getBalance());
+        createdAccount.setRewards(account.getRewards());
         return accountRepository.save(createdAccount);
     }
     public Account updateAccount(Long accountId,Account account,String exceptionMessage) {

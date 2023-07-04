@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.chrono.IsoChronology;
 
 @RestController
@@ -50,9 +51,9 @@ public class AccountController {
 
 
     @PostMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<Account> createAccount(@RequestParam Long customerId, @RequestParam String nickname, @RequestParam AccountType accountType) {
+    public ResponseEntity<Account> createAccount(@PathVariable Long customerId,@Valid @RequestBody Account account) {
         String exceptionMessage = "Unable to create new account as no customer was found matching the provided customer ID";
-        Account createdAccount = accountService.createAccount(customerId, exceptionMessage, nickname, accountType);
+        Account createdAccount = accountService.createAccount(customerId, exceptionMessage, account);
         return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
     }
 

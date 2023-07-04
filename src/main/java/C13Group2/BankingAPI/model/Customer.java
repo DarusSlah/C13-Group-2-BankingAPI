@@ -18,11 +18,11 @@ public class Customer {
     @JsonProperty("id")
     private Long id;
     @Column(name = "first_name")
-    @JsonProperty("first_name")
+    @JsonProperty("firstname")
     @NotEmpty
     private String firstName;
     @Column(name = "last_name")
-    @JsonProperty("last_name")
+    @JsonProperty("lastname")
     @NotEmpty
     private String lastName;
 

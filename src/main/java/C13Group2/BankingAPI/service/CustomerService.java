@@ -4,6 +4,7 @@ import C13Group2.BankingAPI.model.Address;
 import C13Group2.BankingAPI.model.Customer;
 
 
+import C13Group2.BankingAPI.repositories.AccountRepository;
 import C13Group2.BankingAPI.repositories.AddressRepository;
 import C13Group2.BankingAPI.repositories.CustomerRepository;
 
@@ -21,8 +22,13 @@ public class CustomerService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
     @Autowired
     private AddressRepository addressRepository;
+
+//    private void verifyIfAccountExists(Long )
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
