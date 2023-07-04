@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.service;
 
+import C13Group2.BankingAPI.dto.CreateAccountDTO;
 import C13Group2.BankingAPI.enums.AccountType;
 import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.model.Account;
@@ -10,6 +11,8 @@ import C13Group2.BankingAPI.repositories.AccountRepository;
 import C13Group2.BankingAPI.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 
 @Service
@@ -41,15 +44,28 @@ public class AccountService {
     public Iterable<Account>getAllAccountsByCustomerId(Long customerId){
         return accountRepository.findAllAccountsByCustomerId(customerId);
     }
-    public Account createAccount(Long customerId,String exceptionMessage,Account account){
-        verifyCustomer(customerId, exceptionMessage);
-        Account createdAccount = new Account();
-        createdAccount.setAccountType(account.getAccountType());
-        createdAccount.setNickname(account.getNickname());
-        createdAccount.setBalance(account.getBalance());
-        createdAccount.setRewards(account.getRewards());
-        return accountRepository.save(createdAccount);
+
+    public Account createAccount(Long customerId, String exceptionMessage, CreateAccountDTO createAccountDTO){
+        this.verifyCustomer(customerId, exceptionMessage);
+        Account account = new Account();
+
+        String accountType = createAccountDTO.getType().trim().toUpperCase();
+        try {
+            account.setAccountType(AccountType.valueOf(accountType));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid account type: " + accountType);
+        }
+
+        account.setBalance(0.0);
+        if (!(Objects.isNull(createAccountDTO.getNickname())) && !(createAccountDTO.getNickname().isBlank())) {
+            account.setNickname(createAccountDTO.getNickname().trim());
+        }
+        account.setRewards(0);
+        account.setCustomer(customerRepository.findById(customerId).get());
+        return accountRepository.save(account);
+
     }
+
     public Account updateAccount(Long accountId,Account account,String exceptionMessage) {
         verifyIfAccountExists(accountId, exceptionMessage);
         // Find the account by its ID.

@@ -14,19 +14,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CustomerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
-    private final CustomerRepository customerRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private  AddressRepository addressRepository;
 
     @Autowired
     private AccountRepository accountRepository;
-    @Autowired
-    private AddressRepository addressRepository;
+
 
 //    private void verifyIfAccountExists(Long )
     @Autowired
@@ -50,18 +53,30 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(Long id, Customer updatedCustomer) {
-        Customer existingCustomer = customerRepository.findById(id).orElse(null);
-        if (existingCustomer != null) {
-            existingCustomer.setFirstName(updatedCustomer.getFirstName());
-            existingCustomer.setLastName(updatedCustomer.getLastName());
-
-            existingCustomer.setAddresses(updatedCustomer.getAddresses());
-            return customerRepository.save(existingCustomer);
+            Customer existingCustomer = customerRepository.findById(id).orElse(null);
+            if (existingCustomer != null) {
+                if (updatedCustomer.getFirstName() != null && !updatedCustomer.getFirstName().isBlank()) {
+                    existingCustomer.setFirstName(updatedCustomer.getFirstName().trim());
+                }
+                if (updatedCustomer.getLastName() != null && !updatedCustomer.getLastName().isBlank()) {
+                    existingCustomer.setLastName(updatedCustomer.getLastName().trim());
+                }
+                if (updatedCustomer.getAddresses() != null && !updatedCustomer.getAddresses().isEmpty()) {
+                    Set<Address> oldAddresses = new HashSet<>(existingCustomer.getAddresses());
+                    existingCustomer.getAddresses().clear();
+                    addressRepository.deleteAll(oldAddresses);
+                    for (Address address : updatedCustomer.getAddresses()) {
+                        address.setCustomer(existingCustomer);
+                        existingCustomer.getAddresses().add(address);
+                    }
+                }
+                return customerRepository.save(existingCustomer);
+            }
+            return null;
         }
-        return null;
-    }
 
-    public void deleteCustomer(Long id) {
+
+        public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
 

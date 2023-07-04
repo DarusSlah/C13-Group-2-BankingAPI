@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.controller;
 
+import C13Group2.BankingAPI.dto.CreateAccountDTO;
 import C13Group2.BankingAPI.enums.AccountType;
 import C13Group2.BankingAPI.model.Account;
 import C13Group2.BankingAPI.model.Bill;
@@ -37,7 +38,14 @@ public class AccountController {
         return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping("/customers/{customerId}/accounts")
+    public ResponseEntity<?>getAllAccountsByCustomerId(@PathVariable Long customerId){
+        int code = HttpStatus.OK.value();
+        String messages = "Successfully fetched accounts of customer with ID: " + customerId;
+        Iterable<Account> data = accountService.getAllAccountsByCustomerId(customerId);
+        SuccessResponse<Iterable<Account>> successResponse = new SuccessResponse<>(code,messages,data);
+        return new ResponseEntity<>(successResponse,HttpStatus.OK);
+    }
 
     @PutMapping("/accounts/{accountId}")
     public ResponseEntity<?> updateAccount(@PathVariable Long accountId, @RequestBody Account account) {
@@ -51,11 +59,19 @@ public class AccountController {
 
 
     @PostMapping("/customers/{customerId}/accounts")
-    public ResponseEntity<Account> createAccount(@PathVariable Long customerId,@Valid @RequestBody Account account) {
-        String exceptionMessage = "Unable to create new account as no customer was found matching the provided customer ID";
-        Account createdAccount = accountService.createAccount(customerId, exceptionMessage, account);
-        return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
+
+    public ResponseEntity<?> createAccount(@PathVariable Long customerId, @Valid @RequestBody CreateAccountDTO createAccountDTO) {
+        String exceptionMessage = "Unable to create new account as no customer was found matching the provided customer ID: " + customerId;
+
+        int code = HttpStatus.CREATED.value();
+        String message = "Successfully created new account for customer with ID: " + customerId;
+        Account data = this.accountService.createAccount(customerId, exceptionMessage,createAccountDTO);
+        SuccessResponse<Account> successResponse = new SuccessResponse<>(code,message,data);
+
+        return (new ResponseEntity<>(successResponse, HttpStatus.CREATED));
+
     }
+
 
 
     @DeleteMapping("/accounts/{id}")
