@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.model;
 
+
 import C13Group2.BankingAPI.enums.DepositStatus;
 import C13Group2.BankingAPI.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 
 @Entity
 public class Deposit {

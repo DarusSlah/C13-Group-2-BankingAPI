@@ -4,12 +4,16 @@ import C13Group2.BankingAPI.dto.CreateAccountDTO;
 import C13Group2.BankingAPI.enums.AccountType;
 import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.model.Account;
+
+
+
 import C13Group2.BankingAPI.repositories.AccountRepository;
 import C13Group2.BankingAPI.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+
 
 @Service
 public class AccountService {
@@ -40,6 +44,7 @@ public class AccountService {
     public Iterable<Account>getAllAccountsByCustomerId(Long customerId){
         return accountRepository.findAllAccountsByCustomerId(customerId);
     }
+
     public Account createAccount(Long customerId, String exceptionMessage, CreateAccountDTO createAccountDTO){
         this.verifyCustomer(customerId, exceptionMessage);
         Account account = new Account();
@@ -58,6 +63,7 @@ public class AccountService {
         account.setRewards(0);
         account.setCustomer(customerRepository.findById(customerId).get());
         return accountRepository.save(account);
+
     }
 
     public Account updateAccount(Long accountId,Account account,String exceptionMessage) {
@@ -65,6 +71,9 @@ public class AccountService {
         // Find the account by its ID.
         Account accountToUpdate = accountRepository.findById(accountId).get();
         // Check if the new nickname is not null and is not blank.
+        if(account.getAccountType() != null){
+            accountToUpdate.setAccountType(account.getAccountType());
+        }
         if (account.getNickname() != null && !account.getNickname().isEmpty()) {
             // If it's not, update the nickname of the account.
             accountToUpdate.setNickname(account.getNickname().trim());

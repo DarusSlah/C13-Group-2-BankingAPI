@@ -2,36 +2,38 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.BillStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-public class Bill {
+ @Entity
+ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
     @Column(name = "status")
-@Enumerated(EnumType.STRING)
+   @Enumerated(EnumType.STRING)
  private BillStatus status;
     @Column(name = "payee")
- private String payee;
+  private String payee;
     @Column(name = "nickname")
- private String nickname;
+  private String nickname;
     @Column(name = "creation_date")
- private LocalDate creation_date;
+  private LocalDate creation_date;
     @Column(name = "recurring_date")
- private Integer recurring_date;
+  private Integer recurring_date;
     @Column(name = "upcoming_payment")
- private LocalDate upcoming_payment;
+  private LocalDate upcoming_payment;
     @Column(name = "payment_amount")
- private Double payment_amount;
- @ManyToOne(optional = false)
- @JoinColumn(name = "account_id",nullable = false)
- @OnDelete(action = OnDeleteAction.CASCADE)
- private Account account;
+  private Double payment_amount;
+  @ManyToOne(fetch =  FetchType.LAZY ,optional = false)
+  @JoinColumn(name = "account_id",nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonIgnore
+  private Account account;
 
     public Long getId() {
         return id;

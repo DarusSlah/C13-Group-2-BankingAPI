@@ -1,8 +1,10 @@
 package C13Group2.BankingAPI.model;
 
+
 import C13Group2.BankingAPI.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -32,7 +34,8 @@ public class Account{
     private Double balance;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull
+    @JoinColumn(name = "customerId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Customer customer;
@@ -80,9 +83,12 @@ public class Account{
     public Customer getCustomer() {
         return customer;
     }
+
+
     @JsonProperty("customer_id")
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 }
+
 

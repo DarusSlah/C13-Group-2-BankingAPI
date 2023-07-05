@@ -22,6 +22,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+
     @GetMapping("/customers")
     public ResponseEntity<?> getAllCustomers() {
         int code = HttpStatus.OK.value();
@@ -29,6 +30,7 @@ public class CustomerController {
        Iterable<Customer> data = customerService.getAllCustomers();
         SuccessResponse <Iterable<Customer>> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
+
     }
 
     @GetMapping("/customers/{id}")
@@ -54,11 +56,9 @@ public class CustomerController {
         int code = HttpStatus.OK.value();
         String message = "Successfully updated customer matching the provided customer ID: " + id;
         Customer data = customerService.updateCustomer(id, customer);
-        if (data != null) {
-            return new ResponseEntity<>(data, HttpStatus.OK);
-        }
+
         SuccessResponse<Customer>successResponse= new SuccessResponse<>(code,message,data);
-        return new ResponseEntity<>(successResponse,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(successResponse,HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/customers/{id}")

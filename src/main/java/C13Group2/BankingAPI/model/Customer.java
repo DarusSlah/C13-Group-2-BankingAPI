@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
+
 import java.util.Set;
 
 @Entity
@@ -17,13 +18,21 @@ public class Customer {
     @JsonProperty("id")
     private Long id;
     @Column(name = "first_name")
-    @JsonProperty("first_name")
+    @JsonProperty("firstname")
     @NotEmpty
     private String firstName;
     @Column(name = "last_name")
-    @JsonProperty("last_name")
+    @JsonProperty("lastname")
     @NotEmpty
     private String lastName;
+
+//    public Customer(Long id, String firstName, String lastName) {
+//        this.id = id;
+
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
+
     @JsonManagedReference
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonProperty("addresses")

@@ -38,12 +38,13 @@ public class BillController {
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillWithId(@PathVariable Long billId) {
         int code = HttpStatus.OK.value();
-        String messages = "Successfully retrieved Bills associated with the  Id of" + billId;
+        String messages = "Successfully retrieved Bills associated with the  Id of " + billId;
         Bill data = billService.getBillById(billId);
         SuccessResponse<Bill> successResponse = new SuccessResponse<>(code,messages,data);
 
         return (new ResponseEntity<>(successResponse, HttpStatus.OK));
     }
+
 
     @PostMapping("/accounts/{accountId}/bills")
     public ResponseEntity<?>createBill(@PathVariable Long accountId, @Valid @RequestBody Bill bill) {
@@ -54,6 +55,7 @@ public class BillController {
 
         return (new ResponseEntity<>(successResponse, HttpStatus.CREATED));
     }
+
 
     @PutMapping("/bills/{billId}")
     public ResponseEntity<?> updateBill(@PathVariable Long billId, @Valid @RequestBody Bill bill) {
