@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.chrono.IsoChronology;
+import java.util.logging.Logger;
 
 @RestController
 public class AccountController {
 
     @Autowired
     AccountService accountService;
-
     @GetMapping("/accounts")
     public ResponseEntity<?> getAllAccounts(){
         int code = HttpStatus.OK.value();

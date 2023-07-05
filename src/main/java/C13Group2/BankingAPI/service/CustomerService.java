@@ -1,5 +1,6 @@
 package C13Group2.BankingAPI.service;
 
+import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
 import C13Group2.BankingAPI.model.Address;
 import C13Group2.BankingAPI.model.Customer;
 
@@ -30,29 +31,40 @@ public class CustomerService {
     @Autowired
     private AccountRepository accountRepository;
 
-
-//    private void verifyIfAccountExists(Long )
     @Autowired
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
+    private void verifyIfAccountExists(Long accountId, String exceptionMessage)throws ResourceNotFoundException {
+        if(!(accountRepository.existsById(accountId))){
+            throw new ResourceNotFoundException(exceptionMessage);
+        }
+    }
+    private void verifyIfCustomerExists(Long customerId, String exceptionMessage) throws ResourceNotFoundException{
+        if(!(customerRepository.existsById(customerId))){
+            throw new ResourceNotFoundException(exceptionMessage);
+        }
+    }
     public/*List*/ Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
-    public Customer getCustomerById(Long id) {
+    public Customer getCustomerById(Long id, String exceptionMessage ) {
+        verifyIfCustomerExists(id, exceptionMessage);
         return customerRepository.findById(id).orElse(null);
     }
 
     public Customer createCustomer(Customer customer) {
+
         for(Address address: customer.getAddresses()){
             address.setCustomer(customer);
         }
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(Long id, Customer updatedCustomer) {
+    public Customer updateCustomer(Long id, Customer updatedCustomer, String exceptionMessage) {
+        verifyIfCustomerExists(id, exceptionMessage);
             Customer existingCustomer = customerRepository.findById(id).orElse(null);
             if (existingCustomer != null) {
                 if (updatedCustomer.getFirstName() != null && !updatedCustomer.getFirstName().isBlank()) {
@@ -76,8 +88,13 @@ public class CustomerService {
         }
 
 
-        public void deleteCustomer(Long id) {
+        public void deleteCustomer(Long id, String exceptionMessage) {
+        verifyIfCustomerExists(id, exceptionMessage);
         customerRepository.deleteById(id);
+    }
+    public Customer getCustomerByAccountId(Long accountId, String exceptionMessage) {
+        verifyIfAccountExists(accountId, exceptionMessage);
+        return this.customerRepository.findCustomerByAccountId(accountId);
     }
 
 }
