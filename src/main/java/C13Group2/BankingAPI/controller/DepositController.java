@@ -1,13 +1,21 @@
 package C13Group2.BankingAPI.controller;
 
+import C13Group2.BankingAPI.dto.CreateDepositDTO;
+import C13Group2.BankingAPI.dto.UpdateDepositDTO;
 import C13Group2.BankingAPI.model.Deposit;
 import C13Group2.BankingAPI.response.SuccessResponse;
 import C13Group2.BankingAPI.service.DepositService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
 @RestController
 public class DepositController {
+
+    @Autowired
     DepositService depositService;
 
 
@@ -37,26 +45,28 @@ public class DepositController {
         SuccessResponse<Deposit> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-    @PostMapping("/accounts/{accountId}")
-    public ResponseEntity<?> createDeposit(@PathVariable Long accountId, @RequestBody Deposit deposit) {
+    @PostMapping("/accounts/{accountId}/deposits")
+    public ResponseEntity<?> createDeposit(@PathVariable Long accountId, @Valid @RequestBody CreateDepositDTO createDepositDTO) {
         int code = HttpStatus.CREATED.value();
         String message = "Successfully created new deposit for account with ID: " + accountId;
-        Deposit data = depositService.createDeposit(accountId, deposit.getMedium(), deposit.getAmount(), deposit.getDescription());
+        Deposit data = depositService.createDeposit(accountId, createDepositDTO);
         SuccessResponse <Deposit> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.CREATED);
     }
-    @PutMapping("/{depositId}")
-    public ResponseEntity<?> updateDeposit(@PathVariable Long depositId,@RequestBody Deposit deposit) {
+    @PutMapping("/deposits/{depositId}")
+    public ResponseEntity<?> updateDeposit(@PathVariable Long depositId, @Valid @RequestBody UpdateDepositDTO updateDepositDTO) {
+        String exceptionMessage = "Unable to update deposit";
         int code = HttpStatus.CREATED.value();
         String message = "Successfully updated deposit matching the provided transaction ID: " + depositId;
-        Deposit data = depositService.updateDeposit(deposit);
+        Deposit data = depositService.updateDeposit(depositId, exceptionMessage ,updateDepositDTO);
         SuccessResponse <Deposit> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
-    @DeleteMapping("/{depositId}")
+    @DeleteMapping("/deposits/{depositId}")
     public ResponseEntity<?> deleteDeposit(@PathVariable Long depositId) {
         int code = HttpStatus.OK.value();
         String message = "Successfully cancelled deposit matching the provided transaction ID: " + depositId;
+        Deposit data = depositService.deleteDeposit(depositId);
         SuccessResponse <?> successResponse = new SuccessResponse<>(code,message,null);
 
     return new ResponseEntity<>(successResponse,HttpStatus.NO_CONTENT);
