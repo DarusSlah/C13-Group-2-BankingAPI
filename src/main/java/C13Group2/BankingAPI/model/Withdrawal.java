@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Entity
 public class Withdrawal {
@@ -22,13 +23,14 @@ public class Withdrawal {
     @JsonProperty("type")
     @NotNull
     private TransactionType type;
-    private String transaction_Date;
+    private LocalDate transaction_Date;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @JsonProperty("status")
     private WithdrawalStatus status;
-    private Long payer_id;
     private String medium;
+    @Column(name = "amount")
+    @JsonProperty("amount")
     private Double amount;
     private String description;
 
@@ -54,11 +56,11 @@ public class Withdrawal {
         this.type = type;
     }
 
-    public String getTransaction_Date() {
+    public LocalDate getTransaction_Date() {
         return transaction_Date;
     }
 
-    public void setTransaction_Date(String transaction_Date) {
+    public void setTransaction_Date(LocalDate transaction_Date) {
         this.transaction_Date = transaction_Date;
     }
 
@@ -68,14 +70,6 @@ public class Withdrawal {
 
     public void setStatus(WithdrawalStatus status) {
         this.status = status;
-    }
-
-    public Long getPayer_id() {
-        return payer_id;
-    }
-
-    public void setPayer_id(Long payer_id) {
-        this.payer_id = payer_id;
     }
 
     public String getMedium() {
