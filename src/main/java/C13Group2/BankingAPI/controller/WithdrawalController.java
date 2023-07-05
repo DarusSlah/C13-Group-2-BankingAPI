@@ -28,9 +28,10 @@ public class WithdrawalController {
 
     @GetMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId){
+        String exceptionMessage ="Unable to fetch withdrawal";
         int code = HttpStatus.OK.value();
         String message = "Successfully fetched withdrawal matching the provided transaction ID: " + withdrawalId;
-        Withdrawal data = withdrawalService.getWithdrawalById(withdrawalId);
+        Withdrawal data = withdrawalService.getWithdrawalById(withdrawalId,exceptionMessage);
         SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
@@ -50,8 +51,9 @@ public class WithdrawalController {
     @PutMapping("/withdrawals/{withdrawalId}")
     public ResponseEntity<?> updateWithdrawal(@PathVariable Long withdrawalId, @Valid @RequestBody UpdateWithdrawalDTO updateWithdrawalDTO){
         int code = HttpStatus.OK.value();
+        String errorMessage ="Unable to update withdrawal due to invalid id";
         String message = "Successfully updated withdrawal matching the provided transaction ID: " + withdrawalId;
-        Withdrawal data = withdrawalService.updateWithdrawal(withdrawalId,updateWithdrawalDTO);
+        Withdrawal data = withdrawalService.updateWithdrawal(withdrawalId,updateWithdrawalDTO,errorMessage);
         SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code, message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }

@@ -32,6 +32,11 @@ public class WithdrawalService {
             throw new ResourceNotFoundException(exceptionMessage);
         }
     }
+    private void verifyIfWithdrawalExists(Long withdrawalId, String exceptionMessage) throws ResourceNotFoundException {
+        if (!(withdrawalRepository.existsById(withdrawalId))) {
+            throw new ResourceNotFoundException(exceptionMessage);
+        }
+    }
 
     public Iterable<Withdrawal> getAllWithdrawals() {
         List<Withdrawal> withdrawalList = new ArrayList<>();
@@ -43,7 +48,8 @@ public class WithdrawalService {
         return withdrawalList;
     }
 
-    public Withdrawal getWithdrawalById(Long withdrawalId) {
+    public Withdrawal getWithdrawalById(Long withdrawalId,String exceptionMessage) {
+        verifyIfWithdrawalExists(withdrawalId,exceptionMessage);
         return withdrawalRepository.findById(withdrawalId).orElse(null);
 
     }
@@ -69,7 +75,8 @@ public class WithdrawalService {
         return withdrawalRepository.save(withdrawal);
     }
 
-    public Withdrawal updateWithdrawal(Long withdrawalId, UpdateWithdrawalDTO updateWithdrawalDTO) {
+    public Withdrawal updateWithdrawal(Long withdrawalId, UpdateWithdrawalDTO updateWithdrawalDTO,String exceptionMessage) {
+        verifyIfWithdrawalExists(withdrawalId,exceptionMessage);
         Withdrawal existingWithdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);
         existingWithdrawal.setDescription(updateWithdrawalDTO.getDescription());
 
