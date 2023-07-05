@@ -1,5 +1,8 @@
 package C13Group2.BankingAPI.service;
 
+import C13Group2.BankingAPI.dto.CreateWithdrawalDTO;
+import C13Group2.BankingAPI.dto.UpdateWithdrawalDTO;
+import C13Group2.BankingAPI.enums.Medium;
 import C13Group2.BankingAPI.enums.TransactionType;
 import C13Group2.BankingAPI.enums.WithdrawalStatus;
 import C13Group2.BankingAPI.exceptions.ResourceNotFoundException;
@@ -10,6 +13,7 @@ import C13Group2.BankingAPI.repositories.WithdrawalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +24,9 @@ public class WithdrawalService {
 
     @Autowired
     AccountRepository accountRepository;
-    private void verifyIfAccountExists(Long accountId)throws ResourceNotFoundException {
+    private void verifyIfAccountExists(Long accountId,String exceptionMessage)throws ResourceNotFoundException {
         if(!(accountRepository.existsById(accountId))){
-            throw new ResourceNotFoundException("error fetching bills " + accountId);
+            throw new ResourceNotFoundException(exceptionMessage);
         }
     }
 
@@ -41,14 +45,16 @@ public class WithdrawalService {
 
     }
 
-    public Withdrawal createWithdrawal(Long accountId, String medium, Double amount, String description ){
-        verifyIfAccountExists(accountId);
+    public Withdrawal createWithdrawal(Long accountId,String exceptionMessage, CreateWithdrawalDTO createWithdrawalDTO){
+        verifyIfAccountExists(accountId,exceptionMessage);
+        LocalDate currentDate = LocalDate.now();
         Withdrawal withdrawal = new Withdrawal();
         withdrawal.setType(TransactionType.WITHDRAWAL);
         withdrawal.setStatus(WithdrawalStatus.COMPLETED);
-        withdrawal.setMedium(medium);
-        withdrawal.setAmount(amount);
-        withdrawal.setDescription(description);
+        withdrawal.setTransaction_Date(currentDate);
+        withdrawal.setMedium(createWithdrawalDTO.getMedium());
+        withdrawal.setAmount(createWithdrawalDTO.getAmount());
+        withdrawal.setDescription(createWithdrawalDTO.getDescription());
 
         // taking out money from the account
         withdrawal.setAccount(accountRepository.findById(accountId).orElse(null));
@@ -59,17 +65,14 @@ public class WithdrawalService {
 
         return withdrawalRepository.save(withdrawal);
     }
-    public Withdrawal updateWithdrawal(Long withdrawalId,String newMedium, Double newAmount, String newDescription){
+    public Withdrawal updateWithdrawal(Long withdrawalId, UpdateWithdrawalDTO updateWithdrawalDTO){
         Withdrawal existingWithdrawal = withdrawalRepository.findById(withdrawalId).orElse(null);
-        existingWithdrawal.setMedium(newMedium);
-        existingWithdrawal.setAmount(newAmount);
-        existingWithdrawal.setDescription(newDescription);
+        existingWithdrawal.setDescription(updateWithdrawalDTO.getDescription());
 
         return withdrawalRepository.save(existingWithdrawal);
     }
 
     public void deleteWithdrawal(Long withdrawalId){
-
          withdrawalRepository.deleteById(withdrawalId);
     }
 
