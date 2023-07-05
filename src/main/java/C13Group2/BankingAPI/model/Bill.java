@@ -2,6 +2,7 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.BillStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -31,6 +32,7 @@ import java.time.LocalDate;
   @ManyToOne(fetch =  FetchType.LAZY ,optional = false)
   @JoinColumn(name = "account_id",nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
+  @JsonIgnore
   private Account account;
 
     public Long getId() {

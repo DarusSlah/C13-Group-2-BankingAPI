@@ -15,6 +15,7 @@ public class SuccessResponse<T>/* The T is just a placeHolder */ {
     public SuccessResponse(int status, String message) {
         this.status = status;
         this.message = message;
+
     }
 
     public SuccessResponse(int status, String message, T data) {

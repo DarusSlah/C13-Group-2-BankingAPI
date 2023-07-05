@@ -71,6 +71,9 @@ public class AccountService {
         // Find the account by its ID.
         Account accountToUpdate = accountRepository.findById(accountId).get();
         // Check if the new nickname is not null and is not blank.
+        if(account.getAccountType() != null){
+            accountToUpdate.setAccountType(account.getAccountType());
+        }
         if (account.getNickname() != null && !account.getNickname().isEmpty()) {
             // If it's not, update the nickname of the account.
             accountToUpdate.setNickname(account.getNickname().trim());

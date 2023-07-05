@@ -28,7 +28,7 @@ public class BillServices {
 
     private void verifyIfBillExists(Long billId) throws ResourceNotFoundException {
         if(!(billRepository.existsById(billId))){
-            throw new ResourceNotFoundException( "“error fetching bill with id:" + billId);
+            throw new ResourceNotFoundException( "“error fetching bill with id: " + billId);
         }
     }
 
@@ -56,7 +56,7 @@ public class BillServices {
         newBill.setCreation_date(date);
         newBill.setPayment_amount(bill.getPayment_amount());
         newBill.setAccount(accountRepository.findById(accountId).orElse(null));
-        return billRepository.save(bill);
+        return billRepository.save(newBill);
 }
 
 
@@ -81,7 +81,7 @@ public class BillServices {
              updatebill.setUpcoming_payment(nextPaymentDate);
         }
 
-     return billRepository.save(bill);
+     return billRepository.save(updatebill);
     }
 
 

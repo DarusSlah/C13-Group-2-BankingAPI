@@ -38,7 +38,7 @@ public class BillController {
     @GetMapping("/bills/{billId}")
     public ResponseEntity<?> getBillWithId(@PathVariable Long billId) {
         int code = HttpStatus.OK.value();
-        String messages = "Successfully retrieved Bills associated with the  Id of" + billId;
+        String messages = "Successfully retrieved Bills associated with the  Id of " + billId;
         Bill data = billService.getBillById(billId);
         SuccessResponse<Bill> successResponse = new SuccessResponse<>(code,messages,data);
 
