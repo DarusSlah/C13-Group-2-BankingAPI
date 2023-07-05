@@ -2,6 +2,7 @@ package C13Group2.BankingAPI.model;
 
 
 import C13Group2.BankingAPI.enums.DepositStatus;
+import C13Group2.BankingAPI.enums.Medium;
 import C13Group2.BankingAPI.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 
 @Entity
@@ -22,14 +24,23 @@ public class Deposit {
     @JsonProperty("type")
     @NotNull
     private TransactionType type;
-    private String transaction_date;
+    @Column(name = "transaction_date")
+    @JsonProperty("transaction_date")
+    private LocalDate transaction_date;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @JsonProperty("status")
     private DepositStatus status;
-    private Long payee_id;
-    private String medium;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "medium")
+    @JsonProperty("medium")
+    private Medium medium;
+    @Column(name = "amount")
+    @JsonProperty("amount")
     private Double amount;
+    @Column(name = "description")
+    @JsonProperty("description")
     private String description;
 
     @ManyToOne(optional = false)
@@ -54,11 +65,11 @@ public class Deposit {
         this.type = type;
     }
 
-    public String getTransaction_date() {
+    public LocalDate getTransaction_date() {
         return transaction_date;
     }
 
-    public void setTransaction_date(String transaction_date) {
+    public void setTransaction_date(LocalDate transaction_date) {
         this.transaction_date = transaction_date;
     }
 
@@ -70,19 +81,11 @@ public class Deposit {
         this.status = status;
     }
 
-    public Long getPayee_id() {
-        return payee_id;
-    }
-
-    public void setPayee_id(Long payee_id) {
-        this.payee_id = payee_id;
-    }
-
-    public String getMedium() {
+    public Medium getMedium() {
         return medium;
     }
 
-    public void setMedium(String medium) {
+    public void setMedium(Medium medium) {
         this.medium = medium;
     }
 
