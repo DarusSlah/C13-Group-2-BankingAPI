@@ -27,10 +27,10 @@ public class WithdrawalController {
     }
 
     @GetMapping("/withdrawals/{withdrawalId}")
-    public ResponseEntity<?> getWithdrawalById(@PathVariable Long id){
+    public ResponseEntity<?> getWithdrawalById(@PathVariable Long withdrawalId){
         int code = HttpStatus.OK.value();
-        String message = "Successfully fetched withdrawal matching the provided transaction ID: " + id;
-        Withdrawal data = withdrawalService.getWithdrawalById(id);
+        String message = "Successfully fetched withdrawal matching the provided transaction ID: " + withdrawalId;
+        Withdrawal data = withdrawalService.getWithdrawalById(withdrawalId);
         SuccessResponse<Withdrawal> successResponse = new SuccessResponse<>(code,message,data);
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
@@ -56,12 +56,15 @@ public class WithdrawalController {
         return new ResponseEntity<>(successResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/withdrawals/{withdrawalId} ")
-    public ResponseEntity<?> deleteWithdrawal(@PathVariable Long id){
+
+    @DeleteMapping("/withdrawals/{withdrawalId}")
+    public ResponseEntity<SuccessResponse<?>> deleteWithdrawal(@PathVariable Long withdrawalId){
+        withdrawalService.deleteWithdrawal(withdrawalId);
         int code = HttpStatus.OK.value();
-        String message = "Successfully cancelled withdrawal matching the provided transaction ID: " + id;
-        SuccessResponse<?> successResponse = new SuccessResponse<>(code,message,null);
-        withdrawalService.deleteWithdrawal(id);
-        return new ResponseEntity<>(successResponse,HttpStatus.NO_CONTENT);
+        String message = "Successfully cancelled withdrawal matching the provided transaction ID: " + withdrawalId;
+        SuccessResponse<?> successResponse = new SuccessResponse<>(code, message, null);
+        return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
+
+
 }
